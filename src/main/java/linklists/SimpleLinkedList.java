@@ -3,21 +3,16 @@ package linklists;
 import java.util.Optional;
 
 public class SimpleLinkedList {
-    private Link head;
+    protected Link head;
 
     public SimpleLinkedList() {
         this.head = null;
     }
 
     public void insertHead(int value) {
-        if (isEmpty()) {
-            this.head = new Link(value);
-            this.head.setNext(null);
-        } else {
-            var newHead = new Link(value);
-            newHead.setNext(this.head);
-            this.head = newHead;
-        }
+        var newHead = new Link(value);
+        newHead.setNext(this.head);
+        this.head = newHead;
     }
 
     public int deleteHead() {
