@@ -4,7 +4,7 @@ import lombok.Setter;
 
 @Setter
 public class DoubleEndedLinkedList extends SimpleLinkedList {
-    private Link tail;
+    private Node tail;
 
     public DoubleEndedLinkedList() {
         super();
@@ -13,7 +13,7 @@ public class DoubleEndedLinkedList extends SimpleLinkedList {
 
     @Override
     public void insertHead(int value) {
-        var newHead = new Link(value);
+        var newHead = new Node(value);
         if (isEmpty()) {
             this.tail = newHead;
         }
@@ -22,7 +22,7 @@ public class DoubleEndedLinkedList extends SimpleLinkedList {
     }
 
     public void insertTail(int value) {
-        var newTail = new Link(value);
+        var newTail = new Node(value);
         if (isEmpty()) {
             this.head = newTail;
         } else {

@@ -1,10 +1,9 @@
 package linklists;
 
+import linklists.SimpleLinkedList.Node;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class DoubleEndedLinkedListTest {
     private DoubleEndedLinkedList linkedList;
@@ -23,7 +22,7 @@ class DoubleEndedLinkedListTest {
         final var newVal = 55;
         linkedList.insertTail(newVal);
         Assertions.assertThat(linkedList.find(newVal)).isPresent()
-                .map(Link::getValue)
+                .map(Node::getValue)
                 .get()
                 .isEqualTo(newVal);
         System.out.println("linkedList after insert --> ");

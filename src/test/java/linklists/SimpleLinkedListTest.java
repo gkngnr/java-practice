@@ -1,17 +1,15 @@
 package linklists;
 
+import linklists.SimpleLinkedList.Node;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import java.util.Optional;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class SimpleLinkedListTest {
 
@@ -47,28 +45,36 @@ class SimpleLinkedListTest {
 
         assertThat(linkedList.find(22))
                 .isPresent()
-                .map(Link::getValue)
+                .map(Node::getValue)
                 .get()
                 .isEqualTo(22);
     }
 
+    @Test
+    void reverse() {
+        assertThat(linkedList.head.getValue()).isEqualTo(44);
+        linkedList.display();
+        linkedList.reverse();
+        assertThat(linkedList.head.getValue()).isEqualTo(11);
+        linkedList.display();
+    }
+
     @ParameterizedTest
-    @MethodSource("deleteTestSource")
+    @MethodSource
     void delete(int input, boolean hasValue) {
         System.out.println("value to be deleted: " + input);
         linkedList.display();
         final var result = linkedList.delete(input);
         linkedList.display();
         if (hasValue) {
-            assertThat(result).isPresent().map(Link::getValue).get().isEqualTo(input);
+            assertThat(result).isPresent().map(Node::getValue).get().isEqualTo(input);
         } else {
             assertThat(result).isNotPresent();
         }
         System.out.println("-----iteration-----");
 
     }
-
-    private static Stream<Arguments> deleteTestSource() {
+    private static Stream<Arguments> delete() {
         return Stream.of(
                 Arguments.of(314, false),
                 Arguments.of(-122, false),
