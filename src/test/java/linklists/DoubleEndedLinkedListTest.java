@@ -28,4 +28,23 @@ class DoubleEndedLinkedListTest {
         System.out.println("linkedList after insert --> ");
         linkedList.display();
     }
+
+    @Test
+    void merge_shouldMergeTwoListsInCorrectOrder() {
+        var list1 = new DoubleEndedLinkedList();
+        list1.insertTail(1);
+        list1.insertTail(5);
+        list1.insertTail(9);
+        list1.insertTail(11);
+
+        var list2 = new DoubleEndedLinkedList();
+        list2.insertTail(2);
+        list2.insertTail(3);
+        list2.insertTail(10);
+        list2.insertTail(12);
+
+        list1.display();
+        list2.display();
+
+    }
 }
