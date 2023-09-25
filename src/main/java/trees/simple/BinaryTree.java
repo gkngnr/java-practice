@@ -10,6 +10,7 @@ public class BinaryTree {
     private Node head;
 
     @RequiredArgsConstructor
+    @Getter
     static class Node {
         private final int key;
         private final double value;
@@ -53,19 +54,77 @@ public class BinaryTree {
         }
     }
 
-    public void traverseInOrder() {
-        traverseInOrder(this.head);
+    public Node findMinNode() {
+        return getMinNodeByKey(this.head);
     }
 
-    private void traverseInOrder(Node node) {
+    private Node getMinNodeByKey(Node node) {
+        if (node.left == null) {
+            return node;
+        }
+        return getMinNodeByKey(node.left);
+    }
+
+    public Node findMaxNode() {
+        return getMaxNodeByKey(this.head);
+    }
+
+    private Node getMaxNodeByKey(Node node) {
+        if (node.right == null) {
+            return node;
+        }
+        return getMaxNodeByKey(node.right);
+    }
+
+    public void printMinKey() {
+        printMinKey(this.head);
+    }
+
+    private void printMinKey(Node node) {
+        if (node.left == null) {
+            System.out.println("Min value is :" + node.key);
+            return;
+        }
+        printMinKey(node.left);
+    }
+
+    public void printMaxKey() {
+        printMaxKey(this.head);
+    }
+
+    private void printMaxKey(Node node) {
+        if (node.right == null) {
+            System.out.println("Max value is: " + node.key);
+            return;
+        }
+        printMaxKey(node.right);
+    }
+
+    public void traverseInOrder() {
+        traverseInAscendingOrder(this.head);
+    }
+
+    public void traverseInOrder(boolean isAscending) {
+        if (isAscending) {
+            traverseInAscendingOrder(this.head);
+        } else {
+            traverseInDescendingOrder(this.head);
+        }
+    }
+
+    private void traverseInAscendingOrder(Node node) {
         if (node == null)
             return;
-        traverseInOrder(node.left);
+        traverseInAscendingOrder(node.left);
         System.out.println("Node key is: " + node.key);
-        traverseInOrder(node.right);
+        traverseInAscendingOrder(node.right);
     }
 
-
-
-
+    private void traverseInDescendingOrder(Node node) {
+        if (node == null)
+            return;
+        traverseInDescendingOrder(node.right);
+        System.out.println("Node key is: " + node.key);
+        traverseInDescendingOrder(node.left);
+    }
 }
