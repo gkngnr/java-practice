@@ -2,11 +2,13 @@ package trees.simple;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+
+@Getter
 @NoArgsConstructor
 public class BinaryTree {
 
-    @Getter
     private Node head;
 
     @RequiredArgsConstructor
@@ -18,17 +20,17 @@ public class BinaryTree {
         private Node left;
     }
 
-    public void find(int key) {
+    public Node findByKey(int key) {
+        if (isEmpty()) throw new EmptyTreeException("Tree is Empty, first insert item");
+
         var cursor = head;
-        while (cursor != null) {
-            if (cursor.key == key) {
-                System.out.println("key found, value is: " + cursor.value);
-                return;
-            }
-            cursor = cursor.key > key ? cursor.left : cursor.right;
+        while (cursor.key != key) {
+            cursor = key < cursor.key ? cursor.left : cursor.right;
+            if (cursor == null) throw new KeyNotFoundException("Key cannot be found with id: " + key);
         }
-        System.out.println("Key not found");
+        return cursor;
     }
+
 
     public void insert(int key, double val) {
         final var newNode = new Node(key, val);
@@ -52,6 +54,40 @@ public class BinaryTree {
                 cursor = cursor.right;
             }
         }
+    }
+
+    public boolean delete(int key) {
+        var current = this.head;
+        var parent = this.head;
+        var isLeft = true;
+        while (current.key != key) {
+            parent = current;
+            if (key < current.key) {
+                isLeft = true;
+                current = current.left;
+            } else {
+                isLeft = false;
+                current = current.right;
+            }
+            if (current == null)
+                return false;
+        }
+        if (current == this.head) {
+            this.head = null;
+        } else if (isLeft) {
+            if (isLeaf(current)) {
+                parent.left = null;
+            } else if (hasOnlyOneChild(current)) {
+                parent.left = current.left == null ? current.right : current.left;
+            }
+        } else {
+            if (isLeaf(current)) {
+                parent.right = null;
+            } else if (hasOnlyOneChild(current)) {
+                parent.right = current.right == null ? current.left : current.right;
+            }
+        }
+        return true;
     }
 
     public Node findMinNode() {
@@ -126,5 +162,17 @@ public class BinaryTree {
         traverseInDescendingOrder(node.right);
         System.out.println("Node key is: " + node.key);
         traverseInDescendingOrder(node.left);
+    }
+
+    private boolean isLeaf(@NonNull Node node) {
+        return node.right == null && node.left == null;
+    }
+
+    private boolean hasOnlyOneChild(@NonNull Node node) {
+        return node.right == null ^ node.left == null;
+    }
+
+    public boolean isEmpty() {
+        return this.head == null;
     }
 }
